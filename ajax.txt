@@ -1,0 +1,164 @@
+index.html
+
+<html>
+	<head>
+		<title>AJAX</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<div class="app">
+			<div class="container">
+				<h1>AJAX GET Request demonstration</h1>
+				<button onclick="get()">AJAX GET Request</button>
+				<p id="file-data"></p>
+			</div>
+			<div class="container">
+				<h1>AJAX POST Request demonstration</h1>
+				<input type="text" id="name" placeholder="Enter your name" />
+				<input type="email" id="email" placeholder="Enter your email" />
+				<input type="text" id="gender" placeholder="Enter your gender" />
+				<input type="text" id="branch" placeholder="Enter your branch" />
+				<input type="text" id="rollno" placeholder="Enter your roll number" />
+				<button onclick="post()">Register</button>
+			</div>
+		</div>
+		<script src="app.js"></script>
+	</body>
+</html>
+
+result.html
+
+<html>
+	<head>
+		<title>AJAX</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<div class="app">
+			<div class="container" style="width: 100%">
+				<h1>Data Of User</h1>
+				<p id="name" style="margin: 0"></p>
+				<p id="gender" style="margin: 0"></p>
+				<p id="branch" style="margin: 0"></p>
+				<p id="email" style="margin: 0"></p>
+				<p id="rollno" style="margin: 0"></p>
+			</div>
+		</div>
+	</body>
+	<script>
+		const name = localStorage.getItem("name");
+		const gender = localStorage.getItem("gender");
+		const branch = localStorage.getItem("branch");
+		const email = localStorage.getItem("email");
+		const rollno = localStorage.getItem("rollno");
+		document.getElementById("name").innerText = "Name: " + name;
+		document.getElementById("gender").innerText = "Gender: " + gender;
+		document.getElementById("branch").innerText = "Branch: " + branch;
+		document.getElementById("email").innerText = "Email: " + email;
+		document.getElementById("rollno").innerText = "Roll No: " + rollno;
+	</script>
+</html>
+
+style.css
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Poppins", sans-serif;
+}
+.app {
+	display: flex;
+	padding: 20px;
+	min-height: 100vh;
+}
+.container {
+	width: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	border: 1px solid #888888;
+	margin: 0px 10px;
+}
+p {
+	margin-top: 20px;
+	border: 2px solid #fdfdfd;
+	padding: 10px;
+}
+h1 {
+	text-align: center;
+	font-size: 30px;
+	margin-bottom: 20px;
+}
+input,
+button {
+	width: 350px;
+	padding: 10px;
+	border: 2px solid #c1c1c1;
+	margin: 5px 0px;
+	border-radius: 5px;
+	outline: none;
+	display: block;
+}
+button {
+	background: #830fff;
+	color: #fdfdfd;
+	margin-top: 10px;
+}
+h2 {
+	margin-bottom: 10px;
+}
+p {
+	font-size: 15px;
+	margin-bottom: 5px;
+}
+p span {
+	font-weight: 600;
+}
+
+app.js
+
+const uname = document.getElementById("name");
+const email = document.getElementById("email");
+const gender = document.getElementById("gender");
+const branch = document.getElementById("branch");
+const rollno = document.getElementById("rollno");
+const get = () => {
+	const req = new XMLHttpRequest();
+	req.onreadystatechange = function () {
+		if (this.status === 200 && this.readyState == 4) {
+			const p = document.getElementById("file-data");
+			p.style.borderColor = "red";
+			p.innerText = this.responseText;
+		}
+	};
+	req.open("GET", "data.txt", true);
+	req.send();
+};
+const post = () => {
+	const user = {
+		name: uname.value,
+		email: email.value,
+		gender: gender.value,
+		branch: branch.value,
+		rollno: rollno.value,
+	};
+	const req = new XMLHttpRequest();
+	req.onreadystatechange = function () {
+		localStorage.setItem("name", uname.value);
+		localStorage.setItem("email", email.value);
+		localStorage.setItem("gender", gender.value);
+		localStorage.setItem("branch", branch.value);
+		localStorage.setItem("rollno", rollno.value);
+		window.location.href = "result.html";
+	};
+	req.open("POST", "http://127.0.0.1:5500/lab1-B/index.html", true);
+	req.send();
+};
+
+
+data.txt
+
+kuch bhi likh de
